@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   get "/users/sign_up", to: "users#new", as: :sign_up
 
   # 用户和其他资源的路由
-  resources :users, param: :username, only: [:index, :show, :create]
+  resources :users, param: :username, only: [:index, :show]
+
   resources :photos, only: [:index, :create, :show] do
     resources :comments, only: [:create, :destroy]
     resources :likes, only: [:create, :destroy]

@@ -11,8 +11,11 @@ class UsersController < ApplicationController
       redirect_to users_path, alert: "User not found."
     elsif @user.private? && !current_user.following?(@user)
       redirect_to users_path, alert: "You're not authorized for that."
+    else
+      @photos = @user.photos
     end
   end
+  
 
   def new
     @user = User.new
