@@ -14,6 +14,6 @@
 #  index_likes_on_photo_id  (photo_id)
 #
 class Like < ApplicationRecord
-  belongs_to :user, foreign_key: :fan_id
   belongs_to :photo
+  belongs_to :user
 end

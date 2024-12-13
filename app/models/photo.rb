@@ -17,6 +17,15 @@
 #
 class Photo < ApplicationRecord
   belongs_to :user, foreign_key: :owner_id
-  has_many :comments
-  has_many :likes
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
+
+  validates :image, presence: true
+  validates :caption, presence: true
+
+  scope :public_photos, -> { joins(:user).where(users: { private: false }) }
+
+  def fans
+    likes.map(&:user)
+  end
 end

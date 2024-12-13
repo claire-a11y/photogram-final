@@ -1,0 +1,42 @@
+<h1>Photo Details</h1>
+
+<p><strong>Image:</strong></p>
+<%= image_tag @photo.image if @photo.image.present? %>
+
+<p><strong>Caption:</strong> <%= @photo.caption %></p>
+<p><strong>Owner:</strong> <%= @photo.user.username %></p>
+<p><strong>Posted:</strong> <%= time_ago_in_words(@photo.created_at) %> ago</p>
+<p><strong>Likes count:</strong> <%= @photo.likes.count %></p>
+<p><strong>Comments count:</strong> <%= @photo.comments.count %></p>
+<p><strong>Fans:</strong> <%= @photo.fans.map(&:username).join(", ") %></p>
+
+<%= button_to "Like", photo_likes_path(@photo), method: :post %>
+
+<h2>Comments</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Commenter</th>
+      <th>Comment</th>
+      <th>Posted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @photo.comments.each do |comment| %>
+      <tr>
+        <td><%= comment.user.username %></td>
+        <td><%= comment.body %></td>
+        <td><%= time_ago_in_words(comment.created_at) %> ago</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Add a new comment</h2>
+<%= form_with model: [@photo, @comment], local: true do |f| %>
+  <div>
+    <%= f.label :body, "Comment" %>
+    <%= f.text_area :body, required: true %>
+  </div>
+  <%= f.submit "Add Comment" %>
+<% end %>
